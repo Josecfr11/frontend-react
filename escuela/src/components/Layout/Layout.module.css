@@ -1,0 +1,25 @@
+.container-layout {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.container-page {
+    width: -webkit-fill-available;
+    margin: 1em;
+}
+
+.header {
+    text-align: center;
+}
+
+.page {
+    display: flex;
+    height: 87%;
+    width: -webkit-fill-available;
+    padding: 0.5em;
+}
+
+.footer {
+    margin: 0;
+}
