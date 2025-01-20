@@ -1,38 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dataClases from '../../data/clases';
 import dataAlumnos from '../../data/alumnos';
 
-function ModalEditarAlumno({ isOpen, onClose, updateAlumnos, onShowToast,alumnoSelected}) {
-    const [nombre, setNombre] = useState(alumnoSelected.nombre);
-    const [apellidos, setApellidos] = useState(alumnoSelected.apellidos);
-    const [clase, setClase] = useState(alumnoSelected.clase);
+function ModalEditarAlumno({ isOpen, onClose, actualizarValor, onShowToast, alumnoSelected, data }) {
+    const [nombre, setNombre] = useState('');
+    const [apellidos, setApellidos] = useState('');
+    const [clase, setClase] = useState('');
 
     const handleSaveData = () => {
-        const nuevoId = Math.max(0, ...dataAlumnos.alumnos.map(alumno => alumno.id)) + 1;
 
-        const nuevoAlumno = {
-            id: nuevoId, 
-            nombre,
-            apellidos,
-            clase,
-            opc_estatus: true,
-        };
 
-        dataAlumnos.alumnos.push(nuevoAlumno); 
-        updateAlumnos([...dataAlumnos.alumnos]);
+        const alumnoActualizado = { ...alumnoSelected, nombre, apellidos, clase };
+
+        actualizarValor(alumnoActualizado);
+        onShowToast('Alumno actualizado correctamente', 'success');
         onClose();
-        handleShowToast('Se ha guardado correctamente', 'success');
-        limpiarCampos();
     };
+
     
-    const limpiarCampos = () => {
-        setNombre('');
-        setApellidos('');
-        setClase('');
-    }
-    const handleShowToast = (message, type) => {
-        onShowToast(message, type);
-    }
+
+    useEffect(() => {
+        if (alumnoSelected) {
+            setNombre(alumnoSelected.nombre || '');
+            setApellidos(alumnoSelected.apellidos || '');
+            setClase(alumnoSelected.clase || '');
+        }
+    }, [alumnoSelected]);
 
     const saveNombre = (event) => setNombre(event.target.value);
     const saveApellidos = (event) => setApellidos(event.target.value);
@@ -97,7 +90,6 @@ function ModalEditarAlumno({ isOpen, onClose, updateAlumnos, onShowToast,alumnoS
                         </div>
                     </div>
                 </div>
-                
             </div>
             <div
                 className={`modal-backdrop fade ${isOpen ? 'show' : ''}`}

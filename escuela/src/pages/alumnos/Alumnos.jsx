@@ -13,7 +13,7 @@ function Alumnos() {
     const [alumnoEditInfo, setAlumnoEditInfo] = useState({});
     const [toast, setToast] = useState({ isVisible: false, message: '', type: '' });
 
-    
+
     const showToast = (message, type) => {
         setToast({ isVisible: true, message, type });
         setTimeout(() => setToast({ isVisible: false, message: '', type: '' }), 3000);
@@ -21,11 +21,17 @@ function Alumnos() {
     const handleShowModalAgregar = () => setShowModalAgregar(true);
     const handleShowModalEditar = (data) => {
         setShowModalEditar(true);
-        console.log(data);
-        
         setAlumnoEditInfo(data);
     }
-    
+
+    const actualizarValor = (alumnoActualizado) => {
+        const alumnosActualizados = alumnos.map((alumno) =>
+            alumno.id === alumnoActualizado.id ? alumnoActualizado : alumno
+        );
+        setAlumnos(alumnosActualizados); // Esto debe forzar el re-renderizado
+    };
+
+
     return (
         <div className='w-100'>
             <form className={`container-fluid bg-body-secondary rounded-4 p-3 ${styles['formulario-filtro']}`}>
@@ -70,7 +76,7 @@ function Alumnos() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dataAlumnos.alumnos.filter((alumno) => alumno.opc_estatus)
+                        {alumnos.filter((alumno) => alumno.opc_estatus)
                             .map((alumno) => (
                                 <tr key={alumno.id}>
                                     <th scope="row">{alumno.id}</th>
@@ -92,6 +98,7 @@ function Alumnos() {
                                 </tr>
                             ))}
                     </tbody>
+
                 </table>
             </div>
             {/* <Toast message={'Se ha guardado correctamente'} type={'success'} ></Toast> */}
@@ -104,8 +111,8 @@ function Alumnos() {
             )}
             {/* Modal */}
             <ModalAgregarAlumno isOpen={showModalAgregar} onClose={() => setShowModalAgregar(false)} updateAlumnos={setAlumnos} onShowToast={showToast}></ModalAgregarAlumno>
-            
-            <ModalEditarAlumno isOpen={showModalEditar} onClose={() => setShowModalEditar(false)} alumnoSelected={alumnoEditInfo} updateAlumnos={setAlumnos} onShowToast={showToast}></ModalEditarAlumno>
+
+            <ModalEditarAlumno isOpen={showModalEditar} onClose={() => setShowModalEditar(false)} alumnoSelected={alumnoEditInfo} actualizarValor={actualizarValor} data={alumnos} onShowToast={showToast}></ModalEditarAlumno>
         </div>
     );
 }
