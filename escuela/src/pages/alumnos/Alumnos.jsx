@@ -35,14 +35,13 @@ function Alumnos() {
 
     const buscarAlumno = () => {
         setAlumnos(alumnos.filter((alumno) => alumno.nombre === nombreFiltro));
-        console.log(nombreFiltro);
     }
 
     useEffect(() => {
-      setAlumnos(dataAlumnos.alumnos)
-    
+        if (nombreFiltro === '') setAlumnos(dataAlumnos.alumnos);
+
     }, [nombreFiltro])
-    
+
 
     const showToast = (message, type) => {
         setToast({ isVisible: true, message, type });
@@ -112,14 +111,14 @@ function Alumnos() {
                         ></Select>
                     </div>
                     <div className="col-2 mb-3 align-content-end">
-                        <Button type={"primary"} name={"Buscar"} onClick={buscarAlumno}/>
+                        <Button type={"primary"} name={"Buscar"} onClick={buscarAlumno} />
                     </div>
                 </div>
             </form>
             <div className="rounded-4 p-3 mt-3 bg-body-secondary">
                 <Table headers={headers} dataList={alumnos} onClickEdit={handleShowModalEditar}></Table>
             </div>
-            
+
             {toast.isVisible && (
                 <Toast
                     message={toast.message}
