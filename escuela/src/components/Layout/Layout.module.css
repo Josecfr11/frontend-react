@@ -5,22 +5,22 @@
     overflow: auto;
 }
 
-.container-page {
+.container-layout__container-page {
     width: -webkit-fill-available;
     margin: 1em;
 }
 
-.header {
+.container-page__header {
     text-align: center;
 }
 
-.page {
+.container-page__page {
     display: flex;
     height: auto;
     width: -webkit-fill-available;
     padding: 0.5em;
 }
 
-.footer {
+.container-page__footer {
     margin: 0;
 }
