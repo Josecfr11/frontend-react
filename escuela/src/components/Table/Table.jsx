@@ -6,8 +6,8 @@ export default function Table({ headers, dataList, onClickEdit }) {
         <table className="rounded-4 table table-hover overflow-hidden m-0">
             <thead>
                 <tr>
-                    {headers.map((header) => (
-                        <th scope="col">{header}</th>
+                    {headers.map((header,key) => (
+                        <th key={key} scope="col">{header}</th>
                     ))}
                     <th scope="col" className="text-center w-25">
                         Accion
@@ -21,7 +21,7 @@ export default function Table({ headers, dataList, onClickEdit }) {
                         <tr key={data.id}>
                             {Object.keys(data).map((prop) => (
                                 prop !== 'opc_estatus' ? 
-                                <td>{data[prop]}</td> : ''
+                                <td key={prop}>{data[prop]}</td> : ''
                             ))}
                             <td>
                                 <div className="container-fluid">
@@ -37,7 +37,6 @@ export default function Table({ headers, dataList, onClickEdit }) {
                                             <Button
                                                 type={"danger"}
                                                 name={"Eliminar"}
-                                                onClick={() => { /* Define the delete action here */ }}
                                             />
                                         </div>
                                     </div>

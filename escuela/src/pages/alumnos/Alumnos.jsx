@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../alumnos/Alumnos.module.css";
 import ModalAgregarAlumno from "../../components/ModalAgregarAlumno/ModalAgregarAlumno";
 import dataAlumnos from "../../data/alumnos";
@@ -34,8 +34,15 @@ function Alumnos() {
     const claseBuscada = (event) => setClaseFiltro(event.target.value);
 
     const buscarAlumno = () => {
-        alumnos.filter((alumno) => alumno.nombre === 6);
+        setAlumnos(alumnos.filter((alumno) => alumno.nombre === nombreFiltro));
+        console.log(nombreFiltro);
     }
+
+    useEffect(() => {
+      setAlumnos(dataAlumnos.alumnos)
+    
+    }, [nombreFiltro])
+    
 
     const showToast = (message, type) => {
         setToast({ isVisible: true, message, type });
@@ -105,7 +112,7 @@ function Alumnos() {
                         ></Select>
                     </div>
                     <div className="col-2 mb-3 align-content-end">
-                        <Button type={"primary"} name={"Buscar"} />
+                        <Button type={"primary"} name={"Buscar"} onClick={buscarAlumno}/>
                     </div>
                 </div>
             </form>
@@ -122,7 +129,6 @@ function Alumnos() {
                     }
                 />
             )}
-            {/* Modal */}
             <ModalAgregarAlumno
                 isOpen={showModalAgregar}
                 onClose={() => setShowModalAgregar(false)}
